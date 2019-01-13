@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <!-- View -->
+    <div id="app">
+        <button @click="isShow = !isShow">toggle</button>
+
+        <transition
+        enter-active-class="animated fadeInRight"   
+        leave-active-class="animated fadeOutRight" 
+        >
+            <p style="width:150px;" v-show="isShow">我在这里</p>
+        </transition>
+    </div>
+</body>
+<script>
+    // VM&Model
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            isShow:false
+        }
+    })
+</script>
+</html>

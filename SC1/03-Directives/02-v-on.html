@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+    <!-- View -->
+    <div id="app">
+        <p>{{message}}</p>
+        <!-- <button v-on:click="changeValue">change value</button> -->
+        <!-- <button @click="changeValue('Hello Girl')">change value</button> -->
+        <!-- 传递事件对象 $event -->
+        <!-- <input @keyup="search($event)" type="text"> -->
+        <!-- 通过事件修饰符，只监听特定的键盘按下 -->
+        <!-- <input @keyup.enter="search" type="text"> -->
+        <input @keyup.13="search" type="text">
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            message:"Hello Vue"
+        },
+        methods:{
+            // 箭头函数在对象中，不是普通函数的简写
+            changeValue(value){
+                // console.log("123")
+                this.message = value
+            },
+            // search(e){
+            //     if(e.keyCode === 13){
+            //         console.log("搜索")
+            //     }
+            // }
+            search(){
+                console.log("搜索")
+            }
+        }
+    })
+</script>
+</html>

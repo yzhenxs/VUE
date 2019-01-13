@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+    <!-- MVVM中的View -->
+    <div id="app">
+        <input v-model="v1" type="text">+<input v-model="v2" type="text">
+        <button @click="add">=</button><input v-model="result" type="text">
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            v1:1,
+            v2:2,
+            result:''
+        },
+        methods:{
+            add(){
+                this.result = parseInt(this.v1)+parseInt(this.v2)
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script> -->
+</head>
+<body>
+    <div id="app">
+        <!-- <img width="300" height="400" v-bind:src="image_url" alt=""> -->
+        <img width="300" height="400" :src="image_url" alt="">
+        <button @click="changeImage">我要清纯的</button>
+        <button @click="deleteMessage">删除</button>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+          image_url:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540461203911&di=847bb381e7de43424a78c127ac7afae6&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201405%2F21%2F20140521224011_Cwa8e.thumb.700_0.jpeg'  
+        },
+        methods:{
+            changeImage(){
+                // console.log("我要换图片了")
+                this.image_url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540461243656&di=2d46c912df7fe502aa3e25bc964124cc&imgtype=0&src=http%3A%2F%2Fpic.feizl.com%2Fupload%2Fallimg%2F170615%2F0Q25a417-14.jpg"
+            },
+            deleteMessage(){
+                console.log("666")
+            }
+        }
+    })
+</script>
+</html>

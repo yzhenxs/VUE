@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+    <!-- MVVM中的View -->
+    <div id="app">
+        <ul>
+            <li v-for="item in persons" :key="item.id">
+            <!-- <li v-for="item in persons"> -->
+                {{item.name}}---{{item.age}}
+                <input type="checkbox">
+            </li>
+        </ul>
+        <button @click="add">添加数据</button>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            persons:[
+                {id:1,name:'张三丰',age:666},
+                {id:2,name:'张无忌',age:555},
+                {id:3,name:'赵敏',age:553},
+                {id:4,name:'尼古拉斯.赵四',age:666}
+            ]
+        },
+        methods:{
+            add(){
+                this.persons.unshift({
+                    id:Math.random(),
+                    name:'xxx'+Math.random(),
+                    age:666+Math.random()
+                })
+            }
+        }
+    })
+</script>
+</html>

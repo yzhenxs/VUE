@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        firstName:<input v-model="firstName"/>
+        lastName:<input v-model="lastName"><br/>
+        fullName:<input :value="fullName"/>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            firstName:'Jim',
+            lastName:'Green',
+            fullName:'Jim Green'
+        },
+        watch:{
+            firstName:function(newValue,oldValue){
+                // console.log(newValue,oldValue)
+                this.fullName = newValue + " " + this.lastName
+            },
+            lastName(newValue,oldValue){
+                this.fullName = this.firstName + " " + newValue
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 适当囫囵吞枣
+    // 普通的函数
+    function eval(){
+        evalCallback(function(obj){
+            console.log(obj)
+        })
+    }
+
+    // 执行回调函数
+    // {status:0,message:"OK"}
+    // 作用:
+    function evalCallback(callback){
+        // 假设干了很多事情...
+        callback({status:0,message:"OK"})
+    }
+
+    eval()
+</script>
+</html>

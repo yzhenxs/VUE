@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+</head>
+
+<body>
+    <!-- View -->
+    <div id="app">
+        <button @click="isShow = !isShow">toggle</button>
+
+        <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave"
+            v-on:leave="leave" v-on:after-leave="afterLeave">
+            <p v-show="isShow">我在这里</p>
+        </transition>
+    </div>
+</body>
+<script>
+    // VM&Model
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            isShow: false
+        },
+        methods: {
+            /****************** 进入 ******************/
+            // el就代表我们被动画的元素，这里就是p标签
+            beforeEnter(el) {
+                el.style.paddingLeft = "150px"
+                el.style.opacity = 0
+            },
+            // done函数，是将来你需要执行afterEnter的时候，需要调用的函数
+            enter(el, done) {
+                /**
+                参数1：被动画元素
+                参数2：样式代码
+                参数3：延时，结束之后要执行的函数
+                **/
+                Velocity(el,{paddingLeft:0,opacity:1},{duration:2000,complete: done})
+            },
+            afterEnter() {
+                console.log("111111111111")
+            },
+
+            /****************** 进入 ******************/
+            beforeLeave(el){
+                el.style.paddingLeft = "0px"
+                el.style.opacity = 1
+            },
+            leave(el,done){
+                Velocity(el,{paddingLeft:150,opacity:0},{duration:3000,complete: done})
+            },
+            afterLeave(){
+                console.log("---afterLeave---")
+            }
+        }
+    })
+</script>
+
+</html>

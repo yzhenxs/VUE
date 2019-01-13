@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title><script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+</head>
+<script type="text/html" id="templateId">
+    <div>
+        用户名4:<input v-model="username" type="text"><br/>
+        密码4:<input v-model="password" type="text"><br/>
+        <button @click="login">登录4</button>
+    </div>
+</script>
+<body>
+    <div id="app">
+        <login></login>
+        <hr>
+        <login></login>
+        <hr>
+        <login></login>
+        <p>{{message}}</p>
+    </div>
+</body>
+<script>
+    //1.定义一个组件 & 注册组件
+    // 组件的作用域是隔离
+    Vue.component('login',{
+        template:"#templateId",
+        data:function(){
+            return {
+                username:'张三',
+                password:'123'  
+            }
+        },
+        methods:{
+            login(){
+                console.log(this.username,this.password)
+            }
+        }
+    })
+
+    // 项目根实例、一个项目中只需要有一个
+    // data是一个对象，它里面的属性，用在id=app的div中
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            message:"我是一个好人"
+        }
+    })
+</script>
+</html>

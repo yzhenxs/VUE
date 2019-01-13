@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <style>
+            #app {
+                width: 600px;
+                margin: 10px auto;
+            }
+    
+            .tb {
+                border-collapse: collapse;
+                width: 100%;
+            }
+    
+            .tb th {
+                background-color: #0094ff;
+                color: white;
+            }
+    
+            .tb td,
+            .tb th {
+                padding: 5px;
+                border: 1px solid black;
+                text-align: center;
+            }
+    
+            .add {
+                padding: 5px;
+                border: 1px solid black;
+                margin-bottom: 10px;
+            }
+        </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 品牌管理组件 -->
+        <brand-manager></brand-manager>
+        <!-- 这是另外一个组件 -->
+        <br/> <br/> <br/>
+        <test></test>
+    </div>
+</body>
+<script type="text/html" id="templateId">
+    <div>
+            <div>
+                <div class="add">
+                    编号:
+                    <input v-model="id" type="text"> 
+                    品牌名称:
+                    <input v-model="name" @keyup.enter="add" type="text"> 
+                    <input type="button" @click="add" value="添加"></div>
+                <div class="add">
+                    品牌名称:
+                    <!-- <input v-model="keyword" @keyup.enter="search" type="text" placeholder="请输入搜索条件"></div> -->
+                    <input v-model="keyword" type="text" placeholder="请输入搜索条件"></div>
+                <table class="tb">
+                    <tr>
+                        <th>编号</th>
+                        <th>品牌名称</th>
+                        <th>创立时间</th>
+                        <th>操作</th>
+                    </tr>
+                    <!---->
+                    <tr v-for="(item,index) in Search" :key="item.id">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <!-- 调用过滤器函数的时候，我们过滤器里面传递的实参，是从第二个开始的 -->
+                        <td>{{item.ctime | dateFormat('/')}}</td>
+                        <td><a href="#" @click="deleteBrand(index)">删除</a></td>
+                    </tr>
+                    <tr v-if="brandList.length === 0">
+                        <td colspan="4">没有更多数据啦!</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+</script>
+<script>
+    //1.定义和注册组件，一步到位
+    // 关于命名参考:
+    // https://cn.vuejs.org/v2/guide/components-registration.html#%E7%BB%84%E4%BB%B6%E5%90%8D%E5%A4%A7%E5%B0%8F%E5%86%99
+    Vue.component('brand-manager', {
+        template: "#templateId",
+        data(){
+            return {
+                brandList:[
+                    {
+                        id:1,name:"LV",ctime:new Date()
+                    },
+                    {
+                        id:2,name:"GUCCI",ctime:new Date()
+                    }
+                ],
+                // 这是一个临时数组，它的作用是将来搜索空串的时候，赋值回去
+                // tempBrandList:[
+                //     {
+                //         id:1,name:"LV",ctime:new Date()
+                //     },
+                //     {
+                //         id:2,name:"GUCCI",ctime:new Date()
+                //     } 
+                // ],
+                id:'', // 编号
+                name:'', // 品牌名称
+                keyword:''//关键字
+            }
+        },
+        filters:{
+            /**
+                input这个参数是第一个，也是必须的
+                其实这个input 就是管道符`|`前面的原始数据
+             */
+            dateFormat(input,operator='-'){
+                const date = new Date(input)
+                const year = date.getFullYear()
+                const month = date.getMonth() + 1
+                const day = date.getDate()
+                const hour = date.getHours()
+                const minute = date.getMinutes()
+                const second = date.getSeconds()
+
+                return `${year}${operator}${month}${operator}${day} ${hour}:${minute}:${second}`
+            }
+        },
+        computed:{
+            Search(){
+                /**
+                const newBrandList =  this.brandList.filter((brand)=>{
+                    // 这个里面的return 是filter回调函数要求的
+                    return brand.name.includes(this.keyword)
+                })
+
+                // 外层的return 是计算属性必须要返回的
+                return newBrandList
+                */
+
+                return this.brandList.filter((brand)=>{
+                    // 这个里面的return 是filter回调函数要求的
+                    return brand.name.includes(this.keyword)
+                })
+            }
+        },
+        methods:{
+            add(){
+                // console.log("---add---")
+                this.brandList.push({id:this.id,name:this.name,ctime:new Date()})
+
+                this.tempBrandList = this.brandList
+                
+                // 清空
+                this.id=""
+                this.name=""
+            },
+            deleteBrand(index){
+                // console.log(index)
+                this.brandList.splice(index,1)
+
+                this.tempBrandList = this.brandList
+            },
+            //搜索
+            /**
+            search(){
+                if(this.keyword == ''){
+                    this.brandList = this.tempBrandList
+
+                    return
+                }
+                // console.log(this.keyword)
+                //1.根据keyword，去旧数组中brandList过滤元素的name属性中包含有keyword的元素
+                // filter的用法，从旧数组中过滤出满足条件的新数组
+                const newBrandList = this.brandList.filter((brand)=>{
+                    return brand.name.includes(this.keyword)
+                    // if(brand.name.includes(this.keyword)){
+                    //     return brand
+                    // }
+                })
+
+                console.log(newBrandList)
+
+                // console.log(newBrandList)
+                this.brandList = newBrandList
+            }
+            **/
+        }
+    })
+
+    // 定义并且注册好了
+    Vue.component('test',{
+        template:`
+            <div>
+                name is {{name}}
+                age is {{age}}
+                birthday is {{birthday | dateFormat('#')}}
+            </div>
+        `,
+        data(){
+            return {
+                name:'小鹏',
+                age:26,
+                birthday:new Date()
+            }
+        },
+        filters:{
+            dateFormat(input,operator="-"){
+                const date = new Date(input)
+                const year = date.getFullYear()
+                const month = date.getMonth() + 1
+                const day = date.getDate()
+                const hour = date.getHours()
+                const minute = date.getMinutes()
+                const second = date.getSeconds()
+
+                return `${year}${operator}${month}${operator}${day} ${hour}:${minute}:${second}`
+            }
+        }
+    })
+
+    var vm = new Vue({
+        el:"#app"
+    })
+</script>
+
+</html>

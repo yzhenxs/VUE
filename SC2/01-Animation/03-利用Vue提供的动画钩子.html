@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+</head>
+
+<body>
+    <!-- View -->
+    <div id="app">
+        <button @click="isShow = !isShow">toggle</button>
+
+        <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave"
+            v-on:leave="leave" v-on:after-leave="afterLeave">
+            <p v-show="isShow">我在这里</p>
+        </transition>
+    </div>
+</body>
+<script>
+    // VM&Model
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            isShow: false
+        },
+        methods: {
+            /****************** 进入 ******************/
+            // el就代表我们被动画的元素，这里就是p标签
+            beforeEnter(el) {
+                el.style.paddingLeft = "150px"
+                el.style.opacity = 0
+            },
+            // done函数，是将来你需要执行afterEnter的时候，需要调用的函数
+            enter(el, done) {
+                //1.设置动画的时间
+                el.style.transition = "all 2s"
+
+                //2.刷新动画帧
+                el.offsetWidth
+
+                //3.动画结束的代码
+                el.style.paddingLeft = "0px"
+                el.style.opacity = 1
+
+                // 一般 enter 和 leave 中，都需要加一个延迟
+                // 等待动画执行完毕之后，再去执行afterEnter中的代码
+                setTimeout(() => {
+                    done()
+                }, 2000);
+            },
+            afterEnter() {
+                console.log("111111111111")
+            },
+
+            /****************** 进入 ******************/
+            beforeLeave(el){
+                el.style.paddingLeft = "0px"
+                el.style.opacity = 1
+            },
+            leave(el,done){
+                //1.设置动画时长
+                el.style.transition = "all 3s"
+
+                //2.刷新动画帧
+                el.offsetWidth
+
+                //3.设置离开结束时候的动画代码
+                el.style.paddingLeft = "150px"
+                el.style.opacity = 0
+
+                setTimeout(() => {
+                    done()
+                }, 3000);
+            },
+            afterLeave(){
+                console.log("---afterLeave---")
+            }
+        }
+    })
+</script>
+
+</html>
